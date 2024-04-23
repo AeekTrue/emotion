@@ -1,4 +1,5 @@
 from emotion.storage import storage
+
 def add_storage_content_view():
     for r in storage.get_all():
         with dpg.tree_node(label=str(r.get('id')), default_open=True):
