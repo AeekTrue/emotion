@@ -1,18 +1,21 @@
 import dearpygui.dearpygui as dpg
 from loguru import logger
 import json
-from emotion.storage import storage
+from emotion.storage import storage, StorageModifiedSignal
 
 def set_json_viewer_value(json_viewer_id):
     dpg.set_item_value(json_viewer_id, )
 
 
 def add_refresh_button(text_field_id, **kwargs):
-    def click_callback(sender, app_data, user_data):
+    @StorageModifiedSignal.subscriber
+    def refresh_from_storage():
         dpg.set_value(text_field_id, json.dumps(storage.data, indent=4, ensure_ascii=False)) 
 
-    dpg.add_button(label='Refresh', user_data=text_field_id, callback=click_callback,
-            **kwargs)
+    def click_callback(sender, app_data, user_data):
+        refresh_from_storage()
+
+    dpg.add_button(label='Refresh', user_data=text_field_id, callback=click_callback, **kwargs)
 
 
 def json_viewer():

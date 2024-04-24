@@ -2,13 +2,17 @@ import dearpygui.dearpygui as dpg
 from loguru import logger
 import json
 from .property import add_property_list, get_property_list_data
-from emotion.storage import storage
+from emotion.storage import storage, StorageModifiedSignal
+
+@StorageModifiedSignal.subject
+def create_record_from_property_list(property_list_id):
+    storage.append(get_property_list_data(property_list_id))
+    logger.debug('Rec created')
 
 
 def add_create_record_button(property_list_id, **kwargs):
     def click_callback(sender, app_data, user_data):
-        storage.append(get_property_list_data(user_data))
-        logger.debug('Rec created')
+        create_record_from_property_list(user_data)
 
     dpg.add_button(label='Create record', user_data=property_list_id,
             callback=click_callback, **kwargs)
