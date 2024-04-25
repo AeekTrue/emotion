@@ -15,10 +15,13 @@ def set_value_field_type(sender, field_type, field_id):
         #dpg.add_selectable(label='Check', **common_args)
         dpg.add_combo(items=(True, False), default_value='True', **common_args)
     
-def add_typed_value_field():
+def add_typed_value_field(value_type='String', value=''):
     value_field_id = dpg.add_input_text(hint='Value', width=200)
-    dpg.add_combo(label='Type', items=('String', 'Integer', 'Float', 'Bool'),
+    switcher = dpg.add_combo(label='Type', items=('String', 'Integer', 'Float', 'Bool'),
            default_value='String', user_data=value_field_id, width=200,
            callback=set_value_field_type)
+
+    set_value_field_type(switcher, value_type, value_field_id)
+    dpg.set_value(value_field_id, value)
     return value_field_id
 

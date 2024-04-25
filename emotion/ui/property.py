@@ -2,12 +2,16 @@ import dearpygui.dearpygui as dpg
 from .typed_value_field import set_value_field_type, add_typed_value_field
 from loguru import logger
 
-def add_property(**kwargs):
+
+def add_property(key='', value_type='String', value='', **kwargs):
     with dpg.group(horizontal=True, **kwargs) as property_id:
-        key_field_id = dpg.add_input_text(hint='Key', width=200)
-        value_field_id = add_typed_value_field()
-        dpg.set_item_user_data(dpg.last_container(),(key_field_id, value_field_id))
+        key_field_id = dpg.add_input_text(hint='Key', width=200,
+                default_value=key)
+        value_field_id = add_typed_value_field(value_type, value)
+        dpg.set_item_user_data(dpg.last_container(),
+                (key_field_id, value_field_id))
     return property_id
+
 
 def add_property_list(**kwargs):
     with dpg.group(**kwargs):
@@ -17,9 +21,11 @@ def add_property_list(**kwargs):
             callback=lambda s, a, u: add_property(parent=u))
     return container
 
+
 def get_property_value(property_id):
     key_field_id, value_field_id = dpg.get_item_user_data(property_id)
     return dpg.get_values((key_field_id, value_field_id))
+
 
 def get_property_list_data(property_list_id):
     json_data = dict()
@@ -28,3 +34,9 @@ def get_property_list_data(property_list_id):
         json_data[key] = value
     return json_data
 
+
+def set_property_list_data(property_list_id, data):
+    dpg.delete_item(property_list_id, children_only=True)
+    for key, value in data.items():
+        add_property(key, value_type='String', value=value,
+                parent=property_list_id)
