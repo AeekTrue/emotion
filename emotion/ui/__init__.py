@@ -2,7 +2,7 @@ import dearpygui.dearpygui as dpg
 import json
 from emotion.storage import storage
 from .json_editor import record_editor, get_property_list_data
-from .json_viewer import json_viewer
+from .json_viewer import json_viewer, list_viewer
 from loguru import logger
 
 def init_ui():
@@ -15,6 +15,7 @@ def init_ui():
 
     logger.debug(storage)
     json_viewer()
+    list_viewer()
     record_editor()
     dpg.setup_dearpygui()
     dpg.show_viewport()
