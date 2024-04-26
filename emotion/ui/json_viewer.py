@@ -3,6 +3,7 @@ from loguru import logger
 import json
 from .viewer import make_viewer
 from .theme import list_view_theme
+from .json_editor import record_editor
 
 def json_viewer_updater(text_field_id, new_data, filt, srtr):
     dpg.set_value(text_field_id,
@@ -19,8 +20,15 @@ def json_viewer(*args, **kwargs):
 
 def add_list_viewer_item(data: dict, **kwargs):
     with dpg.child_window(height=100, **kwargs):
-        for key, value in data.items():
-            dpg.add_text(f'{key}: {value}')
+        with dpg.group(horizontal=True):
+            with dpg.group():
+                for key, value in data.items():
+                    dpg.add_text(f'{key}: {value}')
+            with dpg.group():
+                dpg.add_button(label='Edit',
+                        callback=lambda: record_editor(data))
+                dpg.add_button(label='Delete')
+
 
 
 def list_viewer_updater(list_container_id, new_data, filt, srtr):

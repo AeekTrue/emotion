@@ -13,12 +13,14 @@ def add_property(key='', value_type='String', value='', **kwargs):
     return property_id
 
 
-def add_property_list(**kwargs):
+def add_property_list(data=None, **kwargs):
     with dpg.group(**kwargs):
         with dpg.group(height=-1) as container:
             pass
         dpg.add_button(label='+ Add property', width=-1, user_data=container,
             callback=lambda s, a, u: add_property(parent=u))
+        if data is not None:
+            set_property_list_data(container, data)
     return container
 
 

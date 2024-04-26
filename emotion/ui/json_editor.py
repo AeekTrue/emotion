@@ -25,7 +25,7 @@ def add_create_record_button(property_list_id, **kwargs):
             **kwargs)
 
 
-def record_editor():
+def record_editor(default_value=None):
     with dpg.window(label='JSON editor', width=700, height=500):
-        property_list_id = add_property_list()
+        property_list_id = add_property_list(default_value)
         add_create_record_button(property_list_id, width=-1)
