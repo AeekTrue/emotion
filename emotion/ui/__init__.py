@@ -14,9 +14,9 @@ def init_ui():
         dpg.bind_font(default_font)
 
     logger.debug(storage)
-    json_viewer()
-    list_viewer()
+    list_viewer(width=800, height=800)
     record_editor()
+    dpg.show_style_editor()
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.maximize_viewport()

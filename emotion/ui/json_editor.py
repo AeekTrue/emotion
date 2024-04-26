@@ -7,8 +7,12 @@ from emotion.storage import storage, StorageModifiedSignal
 
 @StorageModifiedSignal.subject
 def create_record_from_property_list(property_list_id):
-    storage.append(get_property_list_data(property_list_id))
-    logger.debug('Rec created')
+    data = get_property_list_data(property_list_id)
+    if data:
+        storage.append()
+        logger.debug('Rec created')
+    else:
+        logger.debug('Rec not created. Empty')
 
 
 def add_create_record_button(property_list_id, **kwargs):
