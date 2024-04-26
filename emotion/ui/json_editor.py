@@ -9,7 +9,7 @@ from emotion.storage import storage, StorageModifiedSignal
 def create_record_from_property_list(property_list_id):
     data = get_property_list_data(property_list_id)
     if data:
-        storage.append()
+        storage.append(data)
         logger.debug('Rec created')
     else:
         logger.debug('Rec not created. Empty')
